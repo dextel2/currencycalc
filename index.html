@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <select>
+        <option value="AUD">AUD</option>
+        <option value="BGN">BGN</option>
+        <option value="BRL">BRL</option>
+        <option value="CAD">CAD</option>
+        <option value="CHF">CHF</option>
+        <option value="CNY">CNY</option>
+        <option value="CZK">CZK</option>
+        <option value="DKK">DKK</option>
+        <option value="EUR">EUR</option>
+        <option value="GBP">GBP</option>
+        <option value="HKD">HKD</option>
+        <option value="HRK">HRK</option>
+        <option value="HUF">HUF</option>
+        <option value="IDR">IDR</option>
+        <option value="ILS">ILS</option>
+        <option value="INR">INR</option>
+        <option value="ISK">ISK</option>
+        <option value="JPY">JPY</option>
+        <option value="KRW">KRW</option>
+        <option value="MXN">MXN</option>
+        <option value="MYR">MYR</option>
+        <option value="NOK">NOK</option>
+        <option value="NZD">NZD</option>
+        <option value="PHP">PHP</option>
+        <option value="PLN">PLN</option>
+        <option value="RON">RON</option>
+        <option value="RUB">RUB</option>
+        <option value="SEK">SEK</option>
+        <option value="SGD">SGD</option>
+        <option value="THB">THB</option>
+        <option value="TRY">TRY</option>
+        <option value="USD">USD</option>
+        <option value="ZAR">ZAR</option>
+    </select>
+    <form>
+        <input type="submit" value="Convert" id="btn">
+    </form>
+    <div id="result"></div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelector("#btn").disabled = true;
+            document.querySelector("select").onchange = () => {
+                document.querySelector("#btn").disabled = false;
+                document.querySelector("form").onsubmit = () => {
+                    fetch("https://api.exchangeratesapi.io/latest?base=USD")
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log(data);
+                            const currency = document.querySelector("select").value;
+                            const rate = data.rates[currency];
+                            console.log(rate);
+                            if (rate !== undefined) {
+                                document.querySelector("#result").innerHTML = `1 USD = ${rate.toFixed(3)} ${currency}`;
+                                document.querySelector("#btn").disabled = true;
+                            }
+                            else {
+                                document.querySelector("#result").innerHTML = "Invalid Currency";
+                                document.querySelector("#btn").disabled = true;
+                            }
+                        }
+                        )
+                document.querySelector("#btn").disabled = true;
+                return false;
+            }
+            };
+        });
+    </script>
+</body>
+
+</html>
